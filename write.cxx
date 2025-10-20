@@ -1,19 +1,41 @@
+#include "TFile.h"
+#include "TTree.h"
+#include "TRandom.h"
+#include <iostream>
+#include <cmath>
+
 void write()
 {
-    // Initialize your object e.g. as a pointer
-    // Create your root file here
-    // Create your TTree here
-    // And the associated branches underneath
-    // for example a branch with your personal object type
-    // Now we create our loop for filling the tree with some random data
-    // For loop here
-    for (Int_t i{0}; i < nEvents; i++)
+
+    // create ROOT file
+    TFile *file = new TFile("tree_file.root", "RECREATE");
+
+    // create TTree
+    TTree *tree = new TTree("tree", "tree");
+
+    // variables for momentum and magnitude
+    Double_t px, py, pz, magnitude;
+
+    // create branches
+    tree->Branch("px", &px);
+    tree->Branch("py", &py);
+    tree->Branch("pz", &pz);
+    tree->Branch("magnitude", &magnitude);
+
+    // fill the tree
+    for (Int_t i = 0; i < 10000; i++)
     {
-        
-    } // define how many events you want
-    // Initialize your new object below
-    // Now fill tree
-    // Remember to delete it again otherwise you will have memory leak!
-}
-// save the tree/file
+        px = gRandom->Gaus(0, 0.02);
+        py = gRandom->Gaus(0, 0.02);
+        pz = gRandom->Gaus(0, 0.02);
+
+        magnitude = std::sqrt(px * px + py * py + pz * pz);
+
+        tree->Fill();
+    }
+
+    // write and close
+    tree->Write();
+    file->Close();
+    delete file;
 }
