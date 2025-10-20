@@ -25,13 +25,11 @@ void read()
         h_px_py->Fill(px, py);
     }
 
-    // draw the histogram
+    // draw the histograms
     TCanvas *c1 = new TCanvas("c1", "px vs py", 800, 600);
     h_px_py->Draw("COLZ");
 
     TCanvas *c2 = new TCanvas("c2", "px*py vs pz", 800, 600);
     tree->Draw("px*py:pz", "magnitude > 0.02", "COLZ");
-
-    // close the file
     
 }
