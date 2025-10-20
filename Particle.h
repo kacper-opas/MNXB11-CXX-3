@@ -1,6 +1,5 @@
 #pragma once
 #include <TObject.h>
-#include <cmath>
 
 class Particle : public TObject
 {
